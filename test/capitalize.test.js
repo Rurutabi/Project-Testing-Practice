@@ -1,6 +1,15 @@
-const { capitalize } = require("../code/capitalize");
+const capitalize = require("../code/capitalize");
 
-it("work", () => {
-  const result = capitalize("hello");
-  expect(result).toBe("hello");
+describe("Rerturn with first character capitalized.", function () {
+  test('with one letter"', function () {
+    expect(capitalize("h")).toEqual("H");
+  });
+
+  test('with mutiple letters"', function () {
+    expect(capitalize("hELLO")).toEqual("HELLO");
+  });
+
+  test('with mutiple letters but only the first character capitalized"', function () {
+    expect(capitalize("hello")).toEqual("Hello");
+  });
 });
