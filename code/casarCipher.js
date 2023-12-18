@@ -1,47 +1,32 @@
-const getshiftString = (key) => {
-  let originalAlphabet = "abcdefghijklmnopqrstuvwxyz";
-  let shift = "";
-
+const getshiftString = (originalAlphabet, key) => {
   key = key > 26 ? key % 26 : key;
 
-  let newstring = originalAlphabet.slice(0, key);
-  let tempString = originalAlphabet.slice(key, originalAlphabet.length);
-
-  shift = tempString + newstring;
-  return shift;
+  return (
+    originalAlphabet.slice(key, originalAlphabet.length) +
+    originalAlphabet.slice(0, key)
+  );
 };
 
 const caesarCipher = (someString, key) => {
-  let originalAlphabet = "abcdefghijklmnopqrstuvwxyz";
-  let tempArr = [];
+  const originalAlphabet = "abcdefghijklmnopqrstuvwxyz";
+  const shiftString = getshiftString(originalAlphabet, key);
+
+  let encryptedString = "";
+
   for (let i = 0; i < someString.length; i++) {
-    for (let j = 0; j < originalAlphabet.length; j++) {
-      if (someString[i] === originalAlphabet[j]) {
-        tempArr.push(j);
+    if (originalAlphabet.indexOf(someString[i])) {
+      let char = originalAlphabet.indexOf(someString[i]);
+      let index = char;
+
+      if (index !== -1) {
+        encryptedString = encryptedString + shiftString[index];
+      } else {
+        encryptedString += char;
       }
     }
   }
 
-  const shiftString = getshiftString(key);
-
-  let temp = "";
-  for (let j = 0; j < tempArr.length; j++) {
-    for (let i = 0; i < shiftString.length; i++) {
-      if (tempArr[j] === i) {
-        temp = temp + shiftString[i];
-      }
-    }
-  }
-
-  return temp;
+  return encryptedString;
 };
 
-console.log(caesarCipher("hello", 4));
-
-// let shiftString = "abcdefghijklmnopqrstuvwxyz";
-
-// for (let i = 0; i < shiftString.length; i++) {
-//   if (i === 7) {
-//     console.log(shiftString[i]);
-//   }
-// }
+console.log(caesarCipher("hello", 3));
