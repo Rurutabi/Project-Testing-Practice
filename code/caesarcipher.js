@@ -1,16 +1,27 @@
 const getshiftString = (originalAlphabet, key) => {
-  key = key > 26 ? key % 26 : key;
+  if (key > 0) {
+    return (
+      originalAlphabet.slice(key, originalAlphabet.length) +
+      originalAlphabet.slice(0, key)
+    );
+  }
 
-  return (
-    originalAlphabet.slice(key, originalAlphabet.length) +
-    originalAlphabet.slice(0, key)
-  );
+  if (key < 0) {
+    return (
+      originalAlphabet.slice(key) +
+      originalAlphabet.slice(0, originalAlphabet.length + key)
+    );
+  }
 };
 
 const caesarCipher = (someString, key) => {
+  if (key % 26 === 0) return someString;
+  key = key > 26 ? key % 26 : key;
+  key = key < -26 ? key % 26 : key;
+
   const originalAlphabet = "abcdefghijklmnopqrstuvwxyz";
   const shiftString = getshiftString(originalAlphabet, key);
-
+  console.log(shiftString);
   let encryptedString = "";
 
   for (let i = 0; i < someString.length; i++) {
@@ -21,7 +32,8 @@ const caesarCipher = (someString, key) => {
       if (index !== -1) {
         encryptedString = encryptedString + shiftString[index];
       } else {
-        encryptedString += char;
+        // console.log(char);
+        encryptedString += someString[i];
       }
     }
   }
@@ -29,4 +41,6 @@ const caesarCipher = (someString, key) => {
   return encryptedString;
 };
 
-console.log(caesarCipher("hello", 3));
+console.log(caesarCipher("hello", -28));
+
+module.exports = caesarCipher;
